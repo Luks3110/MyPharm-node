@@ -70,10 +70,10 @@ module.exports.addCategory = async (req,res) => {
 module.exports.updateCategory = async (req, res) => {
     const { id } = req.params
     const { name, description } = req.body
-    const category = await Category.findByIdAndUpdate(id, { name: name, description: description })
-    .then((response) => res.status(200).json({
+    await Category.findByIdAndUpdate(id, { name: name, description: description })
+    .then(() => res.status(200).json({
         message: 'Categoria atualizada com sucesso!',
-        category: { response }
+        category: { name, description }
     }))
     .catch((err) => res.status(404).json({
         message: 'Categoria não encontrada'

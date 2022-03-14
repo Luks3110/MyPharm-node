@@ -97,7 +97,7 @@ module.exports.updateProduct = async (req, res) => {
             categories: categories,
             brand: brand
         })
-        .then(() => res.status(200).json({message: 'Produto atualizado com sucesso!', Produto: { updatedProduct }}))
+        .then((response) => res.status(200).json({message: 'Produto atualizado com sucesso!', Produto: { response }}))
         .catch((err) => {
             console.log(err)
             res.status(500).json({message: 'Algo deu errado'})
@@ -151,7 +151,7 @@ module.exports.addCategoryToProduct = async (req, res) => {
 module.exports.addBrandToProduct = async (req, res) => {
     const { id } = req.params
     const { brandID } = req.body
-    
+
     const product = await Product.findById(id)
     .catch((err) => {
         console.log(err)

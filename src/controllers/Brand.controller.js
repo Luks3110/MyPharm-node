@@ -59,7 +59,7 @@ module.exports.updateBrand = async (req, res) => {
         const updatedBrand = await Brand.findByIdAndUpdate(id, {
             name: name
         })
-        .then(() => res.status(200).json({message: 'Marca atualizada com sucesso!', Marca: { updatedBrand }}))
+        .then((response) => res.status(200).json({message: 'Marca atualizada com sucesso!', Marca: { response }}))
         .catch((err) => {
             console.log(err)
             return res.status(500).json({
