@@ -1,5 +1,5 @@
 const Brand = require('../models/Brand.model')
-
+const Product = require('../models/Product.model')
 // List of Brands
 module.exports.getBrands = async (req, res) => {
     await Brand.find()
@@ -27,16 +27,16 @@ module.exports.getBrandById = async (req, res) => {
 module.exports.addBrand = async (req, res) => {
     const { name } = req.body
     // Validations
-    const brandExist = await Brand.findOne({ name })
+    const brandExist = await Brand.findOne({ name: name })
     if(brandExist) {
         return res.status(422).json({
             message: 'Marca já existe'
         })
     }
     await Brand.create({ name })
-    .then((res) => res.status(200).json({
+    .then((response) => res.status(200).json({
         message: 'Marca criada com sucesso!',
-        brand: { brand }
+        brand: response
     }))
     .catch((err) => {
         console.log(err)
@@ -85,14 +85,4 @@ module.exports.deleteBrand = async (req, res) => {
             message: 'Algo deu errado'
         })
     })
-}
-
-//Add product to brand
-module.exports.addProductToBrand = async (brandId, product) => {
-    const { id } = brandId
-    return Brand.findByIdAndUpdate(
-        id, 
-        { $push: { products: product._id} },
-        { new: true, useFindAndModify: false }
-    )
 }

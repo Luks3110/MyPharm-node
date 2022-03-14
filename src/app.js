@@ -7,7 +7,10 @@ const cookieParser = require('cookie-parser')
 const { checkToken } = require('./middleware/authMiddleware')
 const uri = process.env.MONGODB_URI
 
-mongoose.connect(uri)
+mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 .then(() => console.log('Connected to MongoDB...'))
 .catch((err) => console.error('Could not connect to MongoDB...', err))
 
@@ -30,9 +33,9 @@ const CategoryRoute = require('./routes/Category.route')
 const BrandRoute = require('./routes/Brand.route')
 
 app.use('/users', UserRoute)
-app.use('/products', checkToken, ProductRoute)
-app.use('/categories', checkToken, CategoryRoute)
-app.use('/brands', checkToken, BrandRoute)
+app.use('/products', ProductRoute)
+app.use('/categories', CategoryRoute)
+app.use('/brands', BrandRoute)
 
 app.use((req, res, next) => {
     const err = new Error("Not found")

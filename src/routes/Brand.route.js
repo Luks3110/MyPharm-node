@@ -11,7 +11,5 @@ router.post('/', brandController.addBrand)
 router.patch('/:id', brandController.updateBrand)
 // Delete brand
 router.delete('/:id', brandController.deleteBrand)
-// Add product to brand
-router.post('/:id/products', brandController.addProductToBrand)
 
 module.exports = router

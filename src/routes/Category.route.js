@@ -11,7 +11,5 @@ router.post('/', categoryController.addCategory)
 router.patch('/:id', categoryController.updateCategory)
 // Delete Category
 router.delete('/:id', categoryController.deleteCategory)
-// Add product to category
-router.post('/:id/products', categoryController.addProductToCategory)
 
 module.exports = router
