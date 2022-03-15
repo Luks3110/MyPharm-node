@@ -1,22 +1,23 @@
-const Brand = require('../models/Brand.model')
-const Product = require('../models/Product.model')
+const Brand = require('../../models/Brand.model')
+const logger = require('../../config/logger')
+
 // List of Brands
 module.exports.getBrands = async (req, res) => {
     await Brand.find()
-    .then((brands) => res.status(200).json({ brands }))
+    .then((brands) => res.status(200).json({ marcas: brands }))
     .catch((err) => {
-        console.log(err)
+        logger.error(err)
         return res.status(500).json({
             message: 'Algo deu errado'
         })
     })
 }
-
+// Brand by ID
 module.exports.getBrandById = async (req, res) => {
     await Brand.findById(req.params.id)
-    .then((brand) => res.status(200).json({ brand }))
+    .then((brand) => res.status(200).json({ marca: brand }))
     .catch((err) => {
-        console.log(err)
+        logger.error(err)
         return res.status(500).json({
             message: 'Algo deu errado'
         })
@@ -39,7 +40,7 @@ module.exports.addBrand = async (req, res) => {
         brand: response
     }))
     .catch((err) => {
-        console.log(err)
+        logger.error(err)
         return res.status(500).json({
             message: 'Algo deu errado'
         })
@@ -61,7 +62,7 @@ module.exports.updateBrand = async (req, res) => {
         })
         .then((response) => res.status(200).json({message: 'Marca atualizada com sucesso!', Marca: { response }}))
         .catch((err) => {
-            console.log(err)
+            logger.error(err)
             return res.status(500).json({
                 message: 'Algo deu errado'
             })
@@ -80,7 +81,7 @@ module.exports.deleteBrand = async (req, res) => {
     await Brand.findByIdAndDelete(id)
     .then(() => res.status(200).json({message: 'Marca deletada com sucesso!'}))
     .catch((err) => {
-        console.log(err)
+        logger.error(err)
         return res.status(500).json({
             message: 'Algo deu errado'
         })

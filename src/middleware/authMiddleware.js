@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const logger = require('../config/logger')
 
 const checkToken = (req, res, next) => {
     const token = req.cookies.jwt;
@@ -7,9 +8,10 @@ const checkToken = (req, res, next) => {
     if(token){
         jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
             if (err) {
+                logger.error(err)
                 return res.status(401).json({error: 'Token inválido'})
             } else{
-                console.log(decodedToken);
+                logger.info(decodedToken);
                 next();
             }
         }) 

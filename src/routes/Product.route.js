@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const productController = require('../controllers/Product.controller');
+const productController = require('../controllers/Product/Product.controller');
 
 // List of categories
 router.get('/', productController.getProducts);

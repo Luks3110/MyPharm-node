@@ -1,4 +1,4 @@
-const User = require('../models/User.model')
+const User = require('../../models/User.model')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -13,12 +13,12 @@ module.exports.register = async (req, res) => {
     // Validations
     if (password !== confirmPassword) {
         return res.status(422).json({
-            message: 'Senhas não correspondem'
+            error: 'Senhas não correspondem'
         })
     }
     if (!name || !email || !password || !confirmPassword) {
         return res.status(422).json({
-            message: 'Preencha todos os campos'
+            error: 'Preencha todos os campos'
         })
     }
     // Check if email already exists
@@ -26,12 +26,12 @@ module.exports.register = async (req, res) => {
             email: email
         })
         .catch(err => res.status(500).json({
-            message: 'Erro ao procurar usuário'
+            error: 'Erro ao procurar usuário'
         }))
 
     if (userExist) {
         return res.status(422).json({
-            message: 'Usuário já existe'
+            error: 'Usuário já existe'
         })
     }
     try {
@@ -52,7 +52,7 @@ module.exports.register = async (req, res) => {
     } catch (error) {
         console.error(error)
         return res.status(500).json({
-            message: 'Algo deu errado'
+            error: 'Algo deu errado'
         })
     }
 }
@@ -71,19 +71,19 @@ module.exports.login = async (req, res) => {
     // Check fields
     if (!email || !password) {
         return res.status(422).json({
-            message: 'Preencha todos os campos'
+            error: 'Preencha todos os campos'
         })
     }
     // Search by email
     if (!userExist) {
         return res.status(422).json({
-            message: 'Usuário inexistente'
+            error: 'Usuário inexistente'
         })
     }
     // Check if passwords match
     if (!checkPassword) {
         return res.status(422).json({
-            message: 'Senha incorreta'
+            error: 'Senha incorreta'
         })
     }
 
@@ -102,7 +102,7 @@ module.exports.login = async (req, res) => {
     } catch (error) {
         console.error(error)
         return res.status(422).json({
-            message: 'Algo deu errado'
+            error: 'Algo deu errado'
         })
     }
 }

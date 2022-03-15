@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "start": "nodemon src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon src/server.js",
+    "test": "jest --coverage --watchAll"
   },
   "keywords": [],
   "author": "",
@@ -17,8 +17,14 @@
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.4.1",
-    "validator": "^13.7.0",
     "mongoose": "^6.2.6",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "validator": "^13.7.0",
+    "winston": "^3.6.0",
+    "winston-mongodb": "^5.0.7"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "supertest": "^6.2.2"
   }
 }

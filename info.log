@@ -1,0 +1,14 @@
+{"level":"info","message":"Connected to MongoDB...","timestamp":"2022-03-15T01:00:06.608Z"}
+{"level":"info","message":"Server started on PORT: 5000","timestamp":"2022-03-15T01:00:06.613Z"}
+{"level":"info","message":"Connected to MongoDB...","timestamp":"2022-03-15T01:02:12.442Z"}
+{"level":"info","message":"Server started on PORT: 5000","timestamp":"2022-03-15T01:02:12.446Z"}
+{"level":"info","message":"Connected to MongoDB...","timestamp":"2022-03-15T01:04:19.886Z"}
+{"level":"info","message":"Server started on PORT: 5000","timestamp":"2022-03-15T01:04:19.890Z"}
+{"level":"info","message":"Connected to MongoDB...","timestamp":"2022-03-15T01:04:51.692Z"}
+{"level":"info","message":"Server started on PORT: 5000","timestamp":"2022-03-15T01:04:51.695Z"}
+{"level":"info","message":"Connected to MongoDB...","timestamp":"2022-03-15T01:05:42.162Z"}
+{"level":"info","message":"Server started on PORT: 5000","timestamp":"2022-03-15T01:05:42.168Z"}
+{"level":"info","message":"Connected to MongoDB...","timestamp":"2022-03-15T01:06:34.395Z"}
+{"level":"info","message":"Server started on PORT: 5000","timestamp":"2022-03-15T01:06:34.398Z"}
+{"code":"ETIMEOUT","hostname":"_mongodb._tcp.mypharmapi.t1xjq.mongodb.net","level":"error","message":"Could not connect to MongoDB... querySrv ETIMEOUT _mongodb._tcp.mypharmapi.t1xjq.mongodb.net","stack":"Error: querySrv ETIMEOUT _mongodb._tcp.mypharmapi.t1xjq.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:dns:213:19)","syscall":"querySrv","timestamp":"2022-03-15T01:19:35.868Z"}
+{"code":"ETIMEOUT","hostname":"_mongodb._tcp.mypharmapi.t1xjq.mongodb.net","level":"error","message":"Could not connect to MongoDB... querySrv ETIMEOUT _mongodb._tcp.mypharmapi.t1xjq.mongodb.net","stack":"Error: querySrv ETIMEOUT _mongodb._tcp.mypharmapi.t1xjq.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:dns:213:19)","syscall":"querySrv","timestamp":"2022-03-15T01:21:01.001Z"}

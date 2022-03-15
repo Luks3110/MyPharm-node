@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const brandController = require('../controllers/Brand.controller')
+const brandController = require('../controllers/Brand/Brand.controller')
 
 // List of brands
 router.get('/', brandController.getBrands)

@@ -1,6 +1,7 @@
-const Product = require('../models/Product.model')
-const Category = require('../models/Category.model')
-const Brand = require('../models/Brand.model')
+const Product = require('../../models/Product.model')
+const Category = require('../../models/Category.model')
+const Brand = require('../../models/Brand.model')
+const logger = require('../../config/logger')
 // List of products
 module.exports.getProducts = async (req, res) => {
     await Product.find().populate("brand").populate("categories")
@@ -11,7 +12,7 @@ module.exports.getProducts = async (req, res) => {
         })
     })
     .catch((err) => {
-        console.log(err)
+        logger.info(err)
         res.status(500).json({message: 'Algo deu errado'})
     })    
 }
@@ -26,7 +27,7 @@ module.exports.getProductById = async (req, res) => {
         })
     })
     .catch((err) => {
-        console.log(err)
+        logger.info(err)
         res.status(500).json({message: 'Algo deu errado'})
     })
 }
@@ -66,7 +67,7 @@ module.exports.addProduct = async (req, res) => {
         })
     }
     catch(error) {
-        console.error(error)
+        logger.error(error)
         return res.status(500).json({
             message: 'Algo deu errado'
         })
@@ -99,7 +100,7 @@ module.exports.updateProduct = async (req, res) => {
         })
         .then((response) => res.status(200).json({message: 'Produto atualizado com sucesso!', Produto: { response }}))
         .catch((err) => {
-            console.log(err)
+            logger.info(err)
             res.status(500).json({message: 'Algo deu errado'})
         })
     }
@@ -123,7 +124,7 @@ module.exports.addCategoryToProduct = async (req, res) => {
     const { categoryID } = req.body
     const product = await Product.findById(id)
     .catch((err) => {
-        console.log(err)
+        logger.info(err)
         return res.status(404).json({
             message: 'Produto não encontrado'
         })
@@ -141,7 +142,7 @@ module.exports.addCategoryToProduct = async (req, res) => {
         return res.status(200).json({ message: 'Categoria adicionada com sucesso!', produto: product})
     })
     .catch((err) => {
-        console.log(err)
+        logger.info(err)
         return res.status(404).json({
             message: 'Categoria não encontrada'
         })
@@ -154,7 +155,7 @@ module.exports.addBrandToProduct = async (req, res) => {
 
     const product = await Product.findById(id)
     .catch((err) => {
-        console.log(err)
+        logger.error(err)
         return res.status(404).json({
             message: 'Produto não encontrado'
         })
@@ -172,7 +173,7 @@ module.exports.addBrandToProduct = async (req, res) => {
            return res.status(200).json({ message: 'Marca adicionada com sucesso!', produto: product})
        })
        .catch((err) => {
-           console.log(err)
+           logger.error(err)
             return res.status(404).json({
             message: 'Marca não encontrada'
         })
