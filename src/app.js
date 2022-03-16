@@ -23,10 +23,10 @@ const UserRoute = require('./routes/User.route')
 const CategoryRoute = require('./routes/Category.route')
 const BrandRoute = require('./routes/Brand.route')
 
-app.use('/usuarios', UserRoute)
-app.use('/produtos', ProductRoute)
-app.use('/categorias', CategoryRoute)
-app.use('/marcas', BrandRoute)
+app.use('/usuarios', checkToken, UserRoute)
+app.use('/produtos', checkToken, ProductRoute)
+app.use('/categorias', checkToken, CategoryRoute)
+app.use('/marcas', checkToken, BrandRoute)
 
 app.use((req, res, next) => {
     const err = new Error("Not found")
