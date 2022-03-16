@@ -23,7 +23,7 @@ const UserRoute = require('./routes/User.route')
 const CategoryRoute = require('./routes/Category.route')
 const BrandRoute = require('./routes/Brand.route')
 
-app.use('/usuarios', checkToken, UserRoute)
+app.use('/usuarios', UserRoute)
 app.use('/produtos', checkToken, ProductRoute)
 app.use('/categorias', checkToken, CategoryRoute)
 app.use('/marcas', checkToken, BrandRoute)
