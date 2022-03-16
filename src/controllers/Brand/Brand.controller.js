@@ -4,7 +4,10 @@ const logger = require('../../config/logger')
 // List of Brands
 module.exports.getBrands = async (req, res) => {
     await Brand.find()
-    .then((brands) => res.status(200).json({ marcas: brands }))
+    .then((brands) => res.status(200).json({
+        message: 'Lista de marcas',
+        marcas: brands 
+    }))
     .catch((err) => {
         logger.error(err)
         return res.status(500).json({

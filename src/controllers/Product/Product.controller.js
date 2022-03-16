@@ -8,7 +8,7 @@ module.exports.getProducts = async (req, res) => {
     .then((response) => {
         res.status(200).json({
             message: 'Lista de produtos',
-            produtos: { response }
+            produtos: response
         })
     })
     .catch((err) => {
@@ -23,7 +23,7 @@ module.exports.getProductById = async (req, res) => {
     .then((response) => {
         res.status(200).json({
             message: 'Produto encontrado',
-            Produto: { response }
+            Produto: response 
         })
     })
     .catch((err) => {
@@ -63,7 +63,7 @@ module.exports.addProduct = async (req, res) => {
         })
         res.status(201).json({
             message: 'Produto criado com sucesso!',
-            Dados: { product }
+            produto: product
         })
     }
     catch(error) {

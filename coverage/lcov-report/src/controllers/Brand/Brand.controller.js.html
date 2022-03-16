@@ -150,12 +150,20 @@
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -238,24 +246,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Brand = require('../../models/Brand.model')
-const Product = require('../../models/Product.model')
+const logger = require('../../config/logger')
+&nbsp;
 // List of Brands
 module.exports.getBrands = <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
 <span class="cstat-no" title="statement not covered" >    await Brand.find()</span>
-    .then(<span class="fstat-no" title="function not covered" >(b</span>rands) =&gt; <span class="cstat-no" title="statement not covered" >res.status(200).json({ brands }))</span>
+    .then(<span class="fstat-no" title="function not covered" >(b</span>rands) =&gt; <span class="cstat-no" title="statement not covered" >res.status(200).json({</span>
+        message: 'Lista de marcas',
+        marcas: brands 
+    }))
     .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >        logger.error(err)</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(500).json({</span>
             message: 'Algo deu errado'
         })
     })
 }
-&nbsp;
+// Brand by ID
 module.exports.getBrandById = <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
 <span class="cstat-no" title="statement not covered" >    await Brand.findById(req.params.id)</span>
-    .then(<span class="fstat-no" title="function not covered" >(b</span>rand) =&gt; <span class="cstat-no" title="statement not covered" >res.status(200).json({ brand }))</span>
+    .then(<span class="fstat-no" title="function not covered" >(b</span>rand) =&gt; <span class="cstat-no" title="statement not covered" >res.status(200).json({ marca: brand }))</span>
     .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >        logger.error(err)</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(500).json({</span>
             message: 'Algo deu errado'
         })
@@ -278,7 +290,7 @@ module.exports.addBrand = <span class="fstat-no" title="function not covered" >a
         brand: response
     }))
     .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >        logger.error(err)</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(500).json({</span>
             message: 'Algo deu errado'
         })
@@ -300,7 +312,7 @@ module.exports.updateBrand = <span class="fstat-no" title="function not covered"
         })
         .then(<span class="fstat-no" title="function not covered" >(r</span>esponse) =&gt; <span class="cstat-no" title="statement not covered" >res.status(200).json({message: 'Marca atualizada com sucesso!', Marca: { response }}))</span>
         .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >            console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >            logger.error(err)</span>
 <span class="cstat-no" title="statement not covered" >            return res.status(500).json({</span>
                 message: 'Algo deu errado'
             })
@@ -319,7 +331,7 @@ module.exports.deleteBrand = <span class="fstat-no" title="function not covered"
 <span class="cstat-no" title="statement not covered" >    await Brand.findByIdAndDelete(id)</span>
     .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >res.status(200).json({message: 'Marca deletada com sucesso!'}))</span>
     .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >        logger.error(err)</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(500).json({</span>
             message: 'Algo deu errado'
         })
@@ -331,7 +343,7 @@ module.exports.deleteBrand = <span class="fstat-no" title="function not covered"
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon Mar 14 2022 21:32:38 GMT-0300 (Horário Padrão de Brasília)
+                at Wed Mar 16 2022 10:55:50 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../../prettify.js"></script>
         <script>

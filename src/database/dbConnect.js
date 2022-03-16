@@ -11,3 +11,7 @@ module.exports.getConnection = async () => {
     .then(() => logger.info('Connected to MongoDB...'))
     .catch((err) => logger.error('Could not connect to MongoDB...', err))
 }
+
+module.exports.disconnect = async () => {
+    await mongoose.connection.close()
+}

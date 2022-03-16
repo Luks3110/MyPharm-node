@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.49% </span>
+                <span class="strong">18.57% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/69</span>
+                <span class='fraction'>13/70</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">9.52% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/21</span>
+                <span class='fraction'>2/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.49% </span>
+                <span class="strong">18.57% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/69</span>
+                <span class='fraction'>13/70</span>
             </div>
         
             
@@ -242,14 +242,16 @@
 <a name='L177'></a><a href='#L177'>177</a>
 <a name='L178'></a><a href='#L178'>178</a>
 <a name='L179'></a><a href='#L179'>179</a>
-<a name='L180'></a><a href='#L180'>180</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -424,17 +426,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Product = require('../../models/Product.model')
 const Category = require('../../models/Category.model')
 const Brand = require('../../models/Brand.model')
+const logger = require('../../config/logger')
 // List of products
-module.exports.getProducts = <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
-<span class="cstat-no" title="statement not covered" >    await Product.find().populate("brand").populate("categories")</span>
-    .then(<span class="fstat-no" title="function not covered" >(r</span>esponse) =&gt; {
-<span class="cstat-no" title="statement not covered" >        res.status(200).json({</span>
+module.exports.getProducts = async (req, res) =&gt; {
+    await Product.find().populate("brand").populate("categories")
+    .then((response) =&gt; {
+        res.status(200).json({
             message: 'Lista de produtos',
-            produtos: { response }
+            produtos: response
         })
     })
     .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >        logger.info(err)</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).json({message: 'Algo deu errado'})</span>
     })    
 }
@@ -449,7 +452,7 @@ module.exports.getProductById = <span class="fstat-no" title="function not cover
         })
     })
     .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >        logger.info(err)</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).json({message: 'Algo deu errado'})</span>
     })
 }
@@ -489,7 +492,7 @@ module.exports.addProduct = <span class="fstat-no" title="function not covered" 
         })
     }
     catch(error) {
-<span class="cstat-no" title="statement not covered" >        console.error(error)</span>
+<span class="cstat-no" title="statement not covered" >        logger.error(error)</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(500).json({</span>
             message: 'Algo deu errado'
         })
@@ -522,7 +525,7 @@ module.exports.updateProduct = <span class="fstat-no" title="function not covere
         })
         .then(<span class="fstat-no" title="function not covered" >(r</span>esponse) =&gt; <span class="cstat-no" title="statement not covered" >res.status(200).json({message: 'Produto atualizado com sucesso!', Produto: { response }}))</span>
         .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >            console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >            logger.info(err)</span>
 <span class="cstat-no" title="statement not covered" >            res.status(500).json({message: 'Algo deu errado'})</span>
         })
     }
@@ -546,7 +549,7 @@ module.exports.addCategoryToProduct = <span class="fstat-no" title="function not
     const { categoryID } = <span class="cstat-no" title="statement not covered" >req.body</span>
     const product = <span class="cstat-no" title="statement not covered" >await Product.findById(id)</span>
     .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >        logger.info(err)</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(404).json({</span>
             message: 'Produto não encontrado'
         })
@@ -564,7 +567,7 @@ module.exports.addCategoryToProduct = <span class="fstat-no" title="function not
 <span class="cstat-no" title="statement not covered" >        return res.status(200).json({ message: 'Categoria adicionada com sucesso!', produto: product})</span>
     })
     .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >        logger.info(err)</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(404).json({</span>
             message: 'Categoria não encontrada'
         })
@@ -577,7 +580,7 @@ module.exports.addBrandToProduct = <span class="fstat-no" title="function not co
 &nbsp;
     const product = <span class="cstat-no" title="statement not covered" >await Product.findById(id)</span>
     .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >        logger.error(err)</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(404).json({</span>
             message: 'Produto não encontrado'
         })
@@ -595,7 +598,7 @@ module.exports.addBrandToProduct = <span class="fstat-no" title="function not co
 <span class="cstat-no" title="statement not covered" >           return res.status(200).json({ message: 'Marca adicionada com sucesso!', produto: product})</span>
        })
        .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >           console.log(err)</span>
+<span class="cstat-no" title="statement not covered" >           logger.error(err)</span>
 <span class="cstat-no" title="statement not covered" >            return res.status(404).json({</span>
             message: 'Marca não encontrada'
         })
@@ -607,7 +610,7 @@ module.exports.addBrandToProduct = <span class="fstat-no" title="function not co
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon Mar 14 2022 21:32:38 GMT-0300 (Horário Padrão de Brasília)
+                at Wed Mar 16 2022 10:55:50 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../../prettify.js"></script>
         <script>

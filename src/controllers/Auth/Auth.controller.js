@@ -25,7 +25,7 @@ module.exports.register = async (req, res) => {
     const userExist = await User.findOne({
             email: email
         })
-        .catch(err => res.status(500).json({
+        .catch(err =>  res.status(500).json({
             error: 'Erro ao procurar usuário'
         }))
 
@@ -58,33 +58,22 @@ module.exports.register = async (req, res) => {
 }
 // Login
 module.exports.login = async (req, res) => {
-    const {
-        email,
-        password
-    } = req.body
-    const userExist = await User.findOne({
-        email: email
-    })
+    const { email, password} = req.body
+    const userExist = await User.findOne({ email: email})
     const checkPassword = await bcrypt.compare(password, userExist.password)
 
     // Validations
     // Check fields
-    if (!email || !password) {
-        return res.status(422).json({
-            error: 'Preencha todos os campos'
-        })
+    if (!email || !password){
+        return res.status(422).json({message: 'Preencha todos os campos'})
     }
     // Search by email
-    if (!userExist) {
-        return res.status(422).json({
-            error: 'Usuário inexistente'
-        })
+    if(!userExist){
+        return res.status(422).json({message: 'Usuário não existe'})
     }
     // Check if passwords match
-    if (!checkPassword) {
-        return res.status(422).json({
-            error: 'Senha incorreta'
-        })
+    if(!checkPassword){
+        return res.status(422).json({message: 'Senha incorreta'})
     }
 
     try {
@@ -95,9 +84,6 @@ module.exports.login = async (req, res) => {
         
         res.status(200).json({
             msg: 'Login realizado com sucesso',
-            token: {
-                token
-            }
         })
     } catch (error) {
         console.error(error)
