@@ -6,7 +6,7 @@ module.exports.getCategories = async (req, res) => {
     .then(response => {
         return res.status(200).json({
             message: 'Lista de categorias',
-            categories: { response }
+            categories: response 
         })
     })
     .catch((err) => {

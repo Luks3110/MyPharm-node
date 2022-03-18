@@ -5,36 +5,40 @@ const logger = require('../../config/logger')
 // List of products
 module.exports.getProducts = async (req, res) => {
     await Product.find().populate("brand").populate("categories")
-    .then((response) => {
-        res.status(200).json({
-            message: 'Lista de produtos',
-            produtos: response
+        .then((response) => {
+            res.status(200).json({
+                message: 'Lista de produtos',
+                produtos: response
+            })
         })
-    })
-    .catch((err) => {
-        logger.info(err)
-        res.status(500).json({message: 'Algo deu errado'})
-    })    
+        .catch((err) => {
+            logger.info(err)
+            res.status(500).json({
+                message: 'Algo deu errado'
+            })
+        })
 }
 
 // Get products by Id
 module.exports.getProductById = async (req, res) => {
     await Product.findById(req.params.id).populate("brand").populate("categories")
-    .then((response) => {
-        res.status(200).json({
-            message: 'Produto encontrado',
-            Produto: response 
+        .then((response) => {
+            res.status(200).json({
+                message: 'Produto encontrado',
+                produto: response
+            })
         })
-    })
-    .catch((err) => {
-        logger.info(err)
-        res.status(500).json({message: 'Algo deu errado'})
-    })
+        .catch((err) => {
+            logger.info(err)
+            res.status(500).json({
+                message: 'Algo deu errado'
+            })
+        })
 }
 
 // Add new product
 module.exports.addProduct = async (req, res) => {
-    const{
+    const {
         name,
         description,
         price,
@@ -43,30 +47,44 @@ module.exports.addProduct = async (req, res) => {
         brand
     } = req.body
     // Validations
+
+    if (!name || !description || !price || !stock || !categories || !brand) {
+        res.status(400).json({
+            message: 'Preencha todos os campos'
+        })
+    }
     const productExist = await Product.findOne({
-        name: name,
-        brand: brand
-    })
-    if(productExist) {
+            name: name,
+            brand: brand
+        })
+        .catch((err) => res.status(500).json({
+            message: "Algo deu errado",
+            error: err
+        }))
+    if (productExist) {
         return res.status(422).json({
             message: 'Produto já existe'
         })
     }
-    try{
-        const product = await Product.create({
-            name,
-            description,
-            price,
-            stock,
-            categories,
-            brand
-        })
-        res.status(201).json({
-            message: 'Produto criado com sucesso!',
-            produto: product
-        })
-    }
-    catch(error) {
+    try {
+        await Product.create({
+                name,
+                description,
+                price,
+                stock,
+                categories,
+                brand
+            })
+            .then((response) => {
+                logger.info('Product created successfully', response)
+                res.status(201).json({
+                    message: 'Produto criado com sucesso!',
+                    produto: response
+                })
+            })
+            .catch((err) => logger.error(err))
+
+    } catch (error) {
         logger.error(error)
         return res.status(500).json({
             message: 'Algo deu errado'
@@ -75,8 +93,10 @@ module.exports.addProduct = async (req, res) => {
 }
 
 module.exports.updateProduct = async (req, res) => {
-    const { id } = req.params
-    const { 
+    const {
+        id
+    } = req.params
+    const {
         name,
         description,
         price,
@@ -85,12 +105,12 @@ module.exports.updateProduct = async (req, res) => {
         brand
     } = req.body
     const product = await Product.findById(id)
-    if(!product) {
+    if (!product) {
         return res.status(404).json({
             message: 'Produto não encontrado'
         })
     }
-        const updatedProduct = await Product.findByIdAndUpdate(id, {
+    const updatedProduct = await Product.findByIdAndUpdate(id, {
             name: name,
             description: description,
             price: price,
@@ -98,84 +118,109 @@ module.exports.updateProduct = async (req, res) => {
             categories: categories,
             brand: brand
         })
-        .then((response) => res.status(200).json({message: 'Produto atualizado com sucesso!', Produto: { response }}))
+        .then((response) => res.status(200).json({
+            message: 'Produto atualizado com sucesso!',
+            produto: response
+        }))
         .catch((err) => {
             logger.info(err)
-            res.status(500).json({message: 'Algo deu errado'})
+            res.status(500).json({
+                message: 'Algo deu errado'
+            })
         })
-    }
+}
 
 module.exports.deleteProduct = async (req, res) => {
-    const { id } = req.params
+    const {
+        id
+    } = req.params
 
     const product = await Product.findById(id)
-    if(!product){
+    if (!product) {
         return res.status(404).json({
             message: 'Produto não encontrado'
         })
     }
     Product.findByIdAndDelete(id)
-    .then(() => res.status(200).json({message: 'Produto deletado com sucesso!'}))
-    .catch(error => res.status(500).json({message: 'Algo deu errado'}))
+        .then(() => res.status(200).json({
+            message: 'Produto deletado com sucesso!'
+        }))
+        .catch(error => res.status(500).json({
+            message: 'Algo deu errado'
+        }))
 }
 
 module.exports.addCategoryToProduct = async (req, res) => {
-    const { id } = req.params
-    const { categoryID } = req.body
+    const {
+        id
+    } = req.params
+    const {
+        categoryID
+    } = req.body
     const product = await Product.findById(id)
-    .catch((err) => {
-        logger.info(err)
-        return res.status(404).json({
-            message: 'Produto não encontrado'
-        })
-    })
-    
-    await Category.findById(categoryID)
-    .then((response) => {
-        if(product.categories.includes(response._id)){
-            return res.status(422).json({
-                message: 'Categoria já existe no produto'
+        .catch((err) => {
+            logger.info(err)
+            return res.status(404).json({
+                message: 'Produto não encontrado'
             })
-        }
-        product.categories.push(response._id)
-        product.save()
-        return res.status(200).json({ message: 'Categoria adicionada com sucesso!', produto: product})
-    })
-    .catch((err) => {
-        logger.info(err)
-        return res.status(404).json({
-            message: 'Categoria não encontrada'
         })
-    })
+
+    await Category.findById(categoryID)
+        .then((response) => {
+            if (product.categories.includes(response._id)) {
+                return res.status(422).json({
+                    message: 'Categoria já existe no produto'
+                })
+            }
+            product.categories.push(response._id)
+            product.save()
+            return res.status(200).json({
+                message: 'Categoria adicionada com sucesso!',
+                produto: product
+            })
+        })
+        .catch((err) => {
+            logger.info(err)
+            return res.status(404).json({
+                message: 'Categoria não encontrada'
+            })
+        })
 }
 
 module.exports.addBrandToProduct = async (req, res) => {
-    const { id } = req.params
-    const { brandID } = req.body
+    const {
+        id
+    } = req.params
+    const {
+        brandID
+    } = req.body
 
     const product = await Product.findById(id)
-    .catch((err) => {
-        logger.error(err)
-        return res.status(404).json({
-            message: 'Produto não encontrado'
-        })
-    })
-    
-    await Brand.findById(brandID)
-    .then((response) => {
-        if(product.brand.includes(response._id)){
-            return res.status(422).json({
-                message: 'Marca já existe no produto'
-            })
-        }
-        product.brand.push(response._id)
-        product.save()
-           return res.status(200).json({ message: 'Marca adicionada com sucesso!', produto: product})
-       })
-       .catch((err) => {
-           logger.error(err)
+        .catch((err) => {
+            logger.error(err)
             return res.status(404).json({
-            message: 'Marca não encontrada'
+                message: 'Produto não encontrado'
+            })
         })
-    })    
+
+    await Brand.findById(brandID)
+        .then((response) => {
+            if (product.brand.includes(response._id)) {
+                return res.status(422).json({
+                    message: 'Marca já existe no produto'
+                })
+            }
+            product.brand.push(response._id)
+            product.save()
+            return res.status(200).json({
+                message: 'Marca adicionada com sucesso!',
+                produto: product
+            })
+        })
+        .catch((err) => {
+            logger.error(err)
+            return res.status(404).json({
+                message: 'Marca não encontrada'
+            })
+        })
 }

@@ -18,14 +18,16 @@ const ProductSchema = new Schema({
         type: Number,
         required: true
     },
-    brand: [{
+    brand: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Brand'
-    }],
-    categories: [{
+        ref: 'Brand',
+        required: true
+    },
+    categories: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
-    }]
+        ref: 'Category',
+        required: true
+    }
 })
 
 const Product = mongoose.model('Product', ProductSchema)

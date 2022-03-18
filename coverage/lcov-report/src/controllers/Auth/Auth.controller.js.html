@@ -162,21 +162,7 @@
 <a name='L97'></a><a href='#L97'>97</a>
 <a name='L98'></a><a href='#L98'>98</a>
 <a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a>
-<a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a>
-<a name='L105'></a><a href='#L105'>105</a>
-<a name='L106'></a><a href='#L106'>106</a>
-<a name='L107'></a><a href='#L107'>107</a>
-<a name='L108'></a><a href='#L108'>108</a>
-<a name='L109'></a><a href='#L109'>109</a>
-<a name='L110'></a><a href='#L110'>110</a>
-<a name='L111'></a><a href='#L111'>111</a>
-<a name='L112'></a><a href='#L112'>112</a>
-<a name='L113'></a><a href='#L113'>113</a>
-<a name='L114'></a><a href='#L114'>114</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -236,13 +222,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -251,18 +232,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -272,9 +247,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -316,7 +288,7 @@ module.exports.register = <span class="fstat-no" title="function not covered" >a
     const userExist = <span class="cstat-no" title="statement not covered" >await User.findOne({</span>
             email: email
         })
-        .catch(<span class="fstat-no" title="function not covered" >er</span>r =&gt; <span class="cstat-no" title="statement not covered" >res.status(500).json({</span>
+        .catch(<span class="fstat-no" title="function not covered" >er</span>r =&gt;  <span class="cstat-no" title="statement not covered" >res.status(500).json({</span>
             error: 'Erro ao procurar usuário'
         }))
 &nbsp;
@@ -349,33 +321,22 @@ module.exports.register = <span class="fstat-no" title="function not covered" >a
 }
 // Login
 module.exports.login = <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
-    const {
-        email,
-        password
-    } = <span class="cstat-no" title="statement not covered" >req.body</span>
-    const userExist = <span class="cstat-no" title="statement not covered" >await User.findOne({</span>
-        email: email
-    })
+    const { email, password} = <span class="cstat-no" title="statement not covered" >req.body</span>
+    const userExist = <span class="cstat-no" title="statement not covered" >await User.findOne({ email: email})</span>
     const checkPassword = <span class="cstat-no" title="statement not covered" >await bcrypt.compare(password, userExist.password)</span>
 &nbsp;
     // Validations
     // Check fields
-<span class="cstat-no" title="statement not covered" >    if (!email || !password) {</span>
-<span class="cstat-no" title="statement not covered" >        return res.status(422).json({</span>
-            error: 'Preencha todos os campos'
-        })
+<span class="cstat-no" title="statement not covered" >    if (!email || !password){</span>
+<span class="cstat-no" title="statement not covered" >        return res.status(422).json({message: 'Preencha todos os campos'})</span>
     }
     // Search by email
-<span class="cstat-no" title="statement not covered" >    if (!userExist) {</span>
-<span class="cstat-no" title="statement not covered" >        return res.status(422).json({</span>
-            error: 'Usuário inexistente'
-        })
+<span class="cstat-no" title="statement not covered" >    if(!userExist){</span>
+<span class="cstat-no" title="statement not covered" >        return res.status(422).json({message: 'Usuário não existe'})</span>
     }
     // Check if passwords match
-<span class="cstat-no" title="statement not covered" >    if (!checkPassword) {</span>
-<span class="cstat-no" title="statement not covered" >        return res.status(422).json({</span>
-            error: 'Senha incorreta'
-        })
+<span class="cstat-no" title="statement not covered" >    if(!checkPassword){</span>
+<span class="cstat-no" title="statement not covered" >        return res.status(422).json({message: 'Senha incorreta'})</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
@@ -386,9 +347,6 @@ module.exports.login = <span class="fstat-no" title="function not covered" >as</
         
 <span class="cstat-no" title="statement not covered" >        res.status(200).json({</span>
             msg: 'Login realizado com sucesso',
-            token: {
-                token
-            }
         })
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        console.error(error)</span>
@@ -409,7 +367,7 @@ module.exports.logout = <span class="fstat-no" title="function not covered" >as<
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Mar 16 2022 10:55:50 GMT-0300 (Horário Padrão de Brasília)
+                at Thu Mar 17 2022 18:00:46 GMT-0300 (Horário Padrão de Brasília)
             </div>
         <script src="../../../prettify.js"></script>
         <script>
