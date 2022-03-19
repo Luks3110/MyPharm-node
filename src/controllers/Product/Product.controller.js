@@ -2,7 +2,9 @@ const Product = require('../../models/Product.model')
 const Category = require('../../models/Category.model')
 const Brand = require('../../models/Brand.model')
 const logger = require('../../config/logger')
-// List of products
+
+
+
 module.exports.getProducts = async (req, res) => {
     await Product.find().populate("brand").populate("categories")
         .then((response) => {
@@ -54,13 +56,10 @@ module.exports.addProduct = async (req, res) => {
         })
     }
     const productExist = await Product.findOne({
-            name: name,
-            brand: brand
-        })
-        .catch((err) => res.status(500).json({
-            message: "Algo deu errado",
-            error: err
-        }))
+        name: name,
+        brand: brand
+    })
+
     if (productExist) {
         return res.status(422).json({
             message: 'Produto já existe'

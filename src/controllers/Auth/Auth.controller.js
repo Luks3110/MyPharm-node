@@ -2,6 +2,7 @@ const User = require('../../models/User.model')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
+
 // Register
 module.exports.register = async (req, res) => {
     const {
@@ -59,9 +60,9 @@ module.exports.register = async (req, res) => {
 // Login
 module.exports.login = async (req, res) => {
     const { email, password} = req.body
+    console.log(req.body)
     const userExist = await User.findOne({ email: email})
-    const checkPassword = await bcrypt.compare(password, userExist.password)
-
+    
     // Validations
     // Check fields
     if (!email || !password){
@@ -71,20 +72,25 @@ module.exports.login = async (req, res) => {
     if(!userExist){
         return res.status(422).json({message: 'Usuário não existe'})
     }
-    // Check if passwords match
-    if(!checkPassword){
-        return res.status(422).json({message: 'Senha incorreta'})
-    }
-
+    
     try {
+        // Check if passwords match
+        const checkPassword = await bcrypt.compare(password, userExist.password)
+        .catch(err => console.log(err))
+        
+        if(!checkPassword){
+            return res.status(422).json({message: 'Senha incorreta'})
+        }
         const secret = process.env.SECRET
         // Create token
         const token = jwt.sign({ _id: userExist._id }, secret)
-        res.cookie('jwt', token, { httpOnly: true, maxAge: 300000})
+        res.cookie('jwt', token, { httpOnly: false, maxAge: 300000})
         
         res.status(200).json({
-            msg: 'Login realizado com sucesso',
+            user: userExist._id,
+            message: 'Login realizado com sucesso',
         })
+        console.log('logado')
     } catch (error) {
         console.error(error)
         return res.status(422).json({

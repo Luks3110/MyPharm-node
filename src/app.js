@@ -3,18 +3,24 @@ const express = require('express')
 const app = express()
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
-const { checkToken } = require('./middleware/authMiddleware')
-
+const {
+    checkToken
+} = require('./middleware/authMiddleware')
+const helmet = require("helmet");
 //read json
 app.use(
     express.urlencoded({
         extended: true
     }),
 )
-app.use(cors())
+app.use(cors({
+    credentials: true,
+    origin: "http://localhost:3000"
+  }));
 app.use(express.json());
 
 //parse cookies
+app.use(helmet());
 app.use(cookieParser())
 
 //api routes
@@ -27,6 +33,8 @@ app.use('/usuarios', UserRoute)
 app.use('/produtos', ProductRoute)
 app.use('/categorias', CategoryRoute)
 app.use('/marcas', BrandRoute)
+
+
 
 app.use((req, res, next) => {
     const err = new Error("Not found")

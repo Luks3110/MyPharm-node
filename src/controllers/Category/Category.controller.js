@@ -38,7 +38,14 @@ module.exports.getCategoryById = async (req, res) => {
 // Add new category
 module.exports.addCategory = async (req,res) => {
     const { name, description } = req.body
+    console.log(req.body)
     // Validations
+    if(!name || !description) {
+        return res.status(400).json({
+            message: 'Preencha todos os campos'
+        })
+    }
+
     const categoryExist = await Category.findOne({
         name: name
     })
